@@ -22,17 +22,17 @@ const Navbar = () => {
     { href: "/courses", label: "Courses" },
     { href: "/about", label: "About" },
     { href: "/blog", label: "Blog" },
-    { href: "/contact", label: "Contact" },
+    { href: "/contact-us", label: "Contact" },
   ];
 
   return (
     <header className="bg-white shadow-md px-6 py-4">
         <div className="flex items-center justify-between">
-          <a>
+          <Link href="/">
             <div className="text-2xl font-bold text-blue-800">
               Yatra<span className="text-red-600">Ed</span>
             </div>
-          </a>
+          </Link>
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-6 font-medium text-gray-700">
           <Link href="/" className="hover:text-blue-600">Home</Link>
@@ -42,11 +42,12 @@ const Navbar = () => {
 
           
         <Link
-          href="/#contact"
-          className="hidden md:inline-block px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800"
-        >
-            Contact Us
-          </Link>
+  href="/contact-us"
+  className="hidden md:inline-block px-4 py-2 bg-[#231F41] text-white rounded hover:bg-blue-800 hover:text-white"
+>
+  Contact Us
+</Link>
+
 
           {/* Hamburger Icon */}
           <button
@@ -64,8 +65,8 @@ const Navbar = () => {
           <Link href="/courses" className="block hover:text-blue-600">Courses</Link>
           <Link href="/about" className="block hover:text-blue-600">About Us</Link>
           <Link
-            href="/#contact"
-            className="inline-block mt-2 px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800"
+            href="/contact-us"
+            className="inline-block mt-2 px-4 py-2 bg-[#231F41] text-white rounded hover:bg-blue-800 hover:text-white"
           >
             Contact Us
           </Link>

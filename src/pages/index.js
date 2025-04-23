@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
+import ContactForm from "@/components/ContactForm";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -49,12 +50,12 @@ export default function Home({ colleges }) {
             <p className="text-xl md:text-2xl lg:text-3xl font-semibold text-[#F4A300] opacity-0 animate-fadeInSlow">
               Education is the passport to your future—every lesson learned is a step closer to success.
             </p>
-            <a
-              href="#services"
-              className="inline-block bg-[#1F194C] text-white px-8 py-4 rounded-md mt-6 font-bold text-lg hover:bg-[#2c2560] transition-all duration-500 w-auto shadow-xl animate-fadeInMediumDelay"
+            <Link
+              href="#colleges"
+              className="inline-block bg-[#1F194C] text-white px-8 py-4 rounded-md mt-6 font-bold text-lg hover:bg-blue-800 hover:text-white transition-all duration-500 w-auto shadow-xl animate-fadeInMediumDelay"
             >
               Explore <span className="ml-2 text-xl">↓</span>
-            </a>
+            </Link>
           </div>
 
           {/* Right Image */}
@@ -166,12 +167,12 @@ export default function Home({ colleges }) {
               At YatraEd, we believe education is not just a journey of acquiring knowledge, but a transformative experience that shapes futures. Our philosophy is rooted in guiding students with integrity, insight, and intention — empowering them to make informed decisions, unlock opportunities worldwide, and discover the paths that align with their true potential. We’re not just consultants; we are partners in your academic odyssey.
             </p>
             <div className="mt-8 text-center">
-              <a
-                href="#"
-                className="inline-block bg-[#231F41] hover:bg-[#1b1735] text-yellow-400 font-semibold px-8 py-4 rounded-lg text-lg transition-all"
+              <Link
+                href="/about"
+                className="inline-block bg-[#231F41] hover:bg-blue-800 hover:text-white text-yellow-400 font-semibold px-8 py-4 rounded-lg text-lg transition-all"
               >
                 Know More
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -211,7 +212,7 @@ export default function Home({ colleges }) {
           </div>
         </div>
       </section>
-      <section className="bg-white py-16 px-6 md:px-20">
+      <section className="bg-white py-16 px-6 md:px-20" id="colleges">
         <div className="max-w-7xl mx-auto text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-extrabold text-[#231F41]">
             Colleges Under <span className="text-yellow-400 underline decoration-4">Yatra Ed</span>
@@ -219,27 +220,40 @@ export default function Home({ colleges }) {
         </div>
 
         {/* Grid of Colleges */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
   {colleges.map((college) => (
-    <div
+    <Link
       key={college.id}
-      className="bg-gray-50 shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-all"
+      href={`/college/${college.id}`}
+      className="block bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow transform hover:-translate-y-1 overflow-hidden"
     >
+      {/* College Image */}
       <Image
-        src={college.image_url || '/default-college.jpg'} // fallback image
+        src={college.photo || '/default-college.jpg'}
         alt={college.name}
         width={400}
         height={300}
         className="w-full h-48 object-cover"
       />
-      <div className="p-6">
-        <h3 className="text-2xl font-bold text-[#231F41] mb-2">{college.name}</h3>
-        <p className="text-gray-600 text-sm">
-  {Array.isArray(college.courses) ? college.courses.join(', ') : String(college.courses || '')}
-</p>
 
+      {/* College Details */}
+      <div className="p-6">
+        <h3 className="text-xl md:text-2xl font-bold text-[#231F41] mb-2">
+          {college.name}
+        </h3>
+        <p className="text-sm text-gray-600 mb-1">{college.location}</p>
+        
+        {/* Courses List */}
+        <div className="text-sm break-words whitespace-normal">
+          <span className="font-medium text-gray-700">Courses:</span>{" "}
+          <span className="text-[#231F41] font-semibold inline">
+            {Array.isArray(college.courses)
+              ? college.courses.join(', ')
+              : String(college.courses || '')}
+          </span>
+        </div>
       </div>
-    </div>
+    </Link>
   ))}
 </div>
 
@@ -247,19 +261,21 @@ export default function Home({ colleges }) {
         {/* View All Colleges Button */}
         <div className="mt-12 text-center">
           <Link href="/courses"
-            className="inline-block bg-[#231F41] hover:bg-[#1b1735] text-yellow-400 font-semibold px-8 py-4 rounded-lg text-lg transition-all"
+            className="inline-block bg-[#231F41] hover:bg-blue-800 hover:text-white text-yellow-400 font-semibold px-8 py-4 rounded-lg text-lg transition-all"
           >
             View All Colleges
           </Link>
         </div>
       </section>
+
+      
       <section id="contact" className="py-10 px-5">
         <div className="max-w-7xl mx-auto flex flex-wrap gap-10 items-start">
-          <div className="flex-1 flex flex-col items-center md:items-start"> {/* Center image on small screens, left align on medium+ */}
+          <div className="flex-1 flex flex-col items-center md:items-start"> 
             <h2 className="text-3xl font-bold mb-4">
               <span className="text-blue-600">Contact</span> Us to Commence your Yatra
             </h2>
-            <p className="mb-6 text-center md:text-left"> {/* Center text on small screens, left align on medium+ */}
+            <p className="mb-6 text-center md:text-left"> 
               Get started with Yatra Ed and take your educational goals to new heights.
             </p>
             <div className="w-full flex justify-center md:justify-start">
@@ -273,64 +289,9 @@ export default function Home({ colleges }) {
               />
             </div>
           </div>
-
-          <form className="flex-1 flex flex-col gap-4 mt-8 md:mt-12"> {/* Add margin-top to push the form down */}
-            <div className="flex gap-4">
-              <input
-                type="text"
-                placeholder="First Name *"
-                display="block"
-                required
-                className="flex-1 p-3 border border-gray-300 rounded"
-                name="first-name"
-              />
-              <input
-                type="text"
-                placeholder="Last Name *"
-                display="block"
-                required
-                className="flex-1 p-3 border border-gray-300 rounded"
-                name="last-name"
-              />
-            </div>
-            <input
-              type="email"
-              placeholder="Email Address *"
-              required
-              className="p-3 border border-gray-300 rounded"
-              name="email"
-            />
-            <div className="flex gap-4">
-              <input
-                type="text"
-                placeholder="Phone Number"
-                className="flex-1 p-3 border border-gray-300 rounded"
-                name="phone"
-              />
-            </div>
-            <div className="flex-1 p-2 border border-gray-300 rounded">
-              <select aria-label="Course you are interested in" name="course">
-                <option value="" disabled selected>Course you are interested in</option>
-                <option value="btech">B.Tech</option>
-                <option value="mtech">M.Tech</option>
-                <option value="bca">B.C.A</option>
-                <option value="bba">B.B.A</option>
-                <option value="mba">M.B.A</option>
-              </select>
-            </div>
-            <button
-              type="submit"
-              style={{ backgroundColor: "#231F41" }}
-              className="hover:bg-blue-800 text-white font-semibold py-3 rounded transition-all"
-            >
-              Send Message
-            </button>
-          </form>
+          <ContactForm></ContactForm>
         </div>
       </section>
-
-      
-
     </>
   );
 }
