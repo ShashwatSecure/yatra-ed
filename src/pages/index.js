@@ -2,8 +2,30 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import Link from 'next/link';
+import { createClient } from '@supabase/supabase-js';
 
-export default function Home() {
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
+
+export async function getStaticProps() {
+  const { data: colleges, error } = await supabase
+    .from('Colleges')
+    .select('*')
+    .limit(6);
+
+  return {
+    props: {
+      colleges: colleges || [],
+    },
+    revalidate: 3600, // optional: regenerate every hour
+  };
+}
+
+export default function Home({ colleges }) {
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -11,53 +33,6 @@ export default function Home() {
       <Head>
         <title>Yatra Ed</title>
       </Head>
-
-      {/* Navbar */}
-      <header className="bg-white shadow-md px-6 py-4">
-        <div className="flex items-center justify-between">
-          <a>
-            <div className="text-2xl font-bold text-blue-800">
-              Yatra<span className="text-red-600">Ed</span>
-            </div>
-          </a>
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-6 font-medium text-gray-700">
-            <a href="#" className="hover:text-blue-600">Home</a>
-            <a href="#" className="hover:text-blue-600">Courses</a>
-            <a href="#" className="hover:text-blue-600">About Us</a>
-          </nav>
-
-          <a
-            href="#contact"
-            className="hidden md:inline-block px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800"
-          >
-            Contact Us
-          </a>
-
-          {/* Hamburger Icon */}
-          <button
-            className="md:hidden text-gray-700"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden mt-4 space-y-3 font-medium text-gray-700">
-            <a href="#" className="block hover:text-blue-600">Home</a>
-            <a href="#" className="block hover:text-blue-600">Courses</a>
-            <a href="#" className="block hover:text-blue-600">About Us</a>
-            <a
-              href="#contact"
-              className="inline-block mt-2 px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800"
-            >
-              Contact Us
-            </a>
-          </div>
-        )}
-      </header>
 
       {/* Hero Section */}
       <section className="bg-[#FFF3ED] px-6 py-12 md:py-20 relative overflow-hidden">
@@ -245,105 +220,37 @@ export default function Home() {
 
         {/* Grid of Colleges */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {/* College Card 1 */}
-          <div className="bg-gray-50 shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-all">
-            <Image
-              src="/college1.jpg"
-              alt="Christ University"
-              width={400}
-              height={300}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-[#231F41] mb-2">Christ University</h3>
-              <p className="text-gray-600 text-sm">B.Sc, B.Tech, BBA, BCA, M.Com, M.Sc, M.Tech, MBA, MCA</p>
-            </div>
-          </div>
+  {colleges.map((college) => (
+    <div
+      key={college.id}
+      className="bg-gray-50 shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-all"
+    >
+      <Image
+        src={college.image_url || '/default-college.jpg'} // fallback image
+        alt={college.name}
+        width={400}
+        height={300}
+        className="w-full h-48 object-cover"
+      />
+      <div className="p-6">
+        <h3 className="text-2xl font-bold text-[#231F41] mb-2">{college.name}</h3>
+        <p className="text-gray-600 text-sm">
+  {Array.isArray(college.courses) ? college.courses.join(', ') : String(college.courses || '')}
+</p>
 
-          {/* College Card 2 */}
-          <div className="bg-gray-50 shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-all">
-            <Image
-              src="/college2.jpg"
-              alt="KIIT"
-              width={400}
-              height={300}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-[#231F41] mb-2">KIIT</h3>
-              <p className="text-gray-600 text-sm">B.Com, B.Sc, B.Tech, BBA, BCA, M.Tech, MBA</p>
-            </div>
-          </div>
+      </div>
+    </div>
+  ))}
+</div>
 
-          {/* College Card 3 */}
-          <div className="bg-gray-50 shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-all">
-            <Image
-              src="/college3.jpg"
-              alt="Jain University"
-              width={400}
-              height={300}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-[#231F41] mb-2">Jain University</h3>
-              <p className="text-gray-600 text-sm">B.Tech, M.Tech, MBA</p>
-            </div>
-          </div>
-
-          {/* College Card 4 */}
-          <div className="bg-gray-50 shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-all">
-            <Image
-              src="/college4.jpg"
-              alt="MIT World Peace University"
-              width={400}
-              height={300}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-[#231F41] mb-2">MIT World Peace University</h3>
-              <p className="text-gray-600 text-sm">B.Des, B.Sc, B.Tech, BBA, BCA, M.Sc, M.Tech, MBA, MCA, Ph.D</p>
-            </div>
-          </div>
-
-          {/* College Card 5 */}
-          <div className="bg-gray-50 shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-all">
-            <Image
-              src="/college5.jpg"
-              alt="M.S. Ramaiah Medical College"
-              width={400}
-              height={300}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-[#231F41] mb-2">M.S. Ramaiah Medical College</h3>
-              <p className="text-gray-600 text-sm">MBBS</p>
-            </div>
-          </div>
-
-          {/* College Card 6 */}
-          <div className="bg-gray-50 shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-all">
-            <Image
-              src="/college6.jpg"
-              alt="Presidency College"
-              width={400}
-              height={300}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-[#231F41] mb-2">Presidency College</h3>
-              <p className="text-gray-600 text-sm">B.Com, B.Des, B.Sc, B.Tech, BBA, BCA, M.Tech, MBA, Ph.D</p>
-            </div>
-          </div>
-        </div>
 
         {/* View All Colleges Button */}
         <div className="mt-12 text-center">
-          <a
-            href="#"
+          <Link href="/courses"
             className="inline-block bg-[#231F41] hover:bg-[#1b1735] text-yellow-400 font-semibold px-8 py-4 rounded-lg text-lg transition-all"
           >
             View All Colleges
-          </a>
+          </Link>
         </div>
       </section>
       <section id="contact" className="py-10 px-5">
@@ -422,38 +329,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer style={{ backgroundColor: "#231F41", color: "white", padding: "50px 20px" }}>
-        <div style={{ maxWidth: "1200px", margin: "auto", display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
-
-          <div style={{ flex: 1, minWidth: "250px", marginBottom: "20px" }}>
-
-            <p>We have the power to guide you through the college admissions process and help you achieve your academic dreams.</p>
-          </div>
-
-          <div style={{ flex: 1, minWidth: "200px", marginBottom: "20px" }}>
-            <h3>Information</h3>
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              <li><a href="#" style={{ color: "white", textDecoration: "none" }}>Contact us</a></li>
-              <li><a href="#" style={{ color: "white", textDecoration: "none" }}>About us</a></li>
-              <li><a href="#" style={{ color: "white", textDecoration: "none" }}>Privacy Policy</a></li>
-              <li><a href="#" style={{ color: "white", textDecoration: "none" }}>Terms and Conditions</a></li>
-            </ul>
-          </div>
-
-          <div style={{ flex: 1, minWidth: "200px", marginBottom: "20px" }}>
-            <h3>Get In Touch</h3>
-            <p><strong>Address:</strong><br />Aurora Waterfront, GN 34/1, beside IEM Ashram Building, GN Block, Sector V, Bidhannagar, Kolkata, West Bengal 700091</p>
-            <p><strong>Email:</strong><br />theyatraed@gmail.com</p>
-            <p><strong>Phone:</strong><br />+91 9876543210</p>
-          </div>
-
-        </div>
-
-        <div style={{ textAlign: "center", paddingTop: "20px", borderTop: "1px solid #ccc", marginTop: "20px" }}>
-          &copy; 2025 YatraEd. All Rights Reserved.
-        </div>
-      </footer>
-
+      
 
     </>
   );
