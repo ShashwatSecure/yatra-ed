@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import ContactForm from "@/components/ContactForm";
@@ -21,7 +20,7 @@ export async function getStaticProps() {
     props: {
       colleges: colleges || [],
     },
-    revalidate: 3600, // optional: regenerate every hour
+    revalidate: 3600,
   };
 }
 
@@ -224,7 +223,7 @@ export default function Home({ colleges }) {
   {colleges.map((college) => (
     <Link
       key={college.id}
-      href={`/college/${college.id}`}
+      href={`/college/${college.slug}`}
       className="block bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow transform hover:-translate-y-1 overflow-hidden"
     >
       {/* College Image */}

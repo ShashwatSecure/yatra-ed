@@ -45,7 +45,7 @@ export default function CoursesPage() {
         setAllCourses([...coursesSet]);
       }
 
-      setLoading(false); // ✅ Done fetching
+      setLoading(false); 
     };
 
     fetchColleges();
@@ -150,8 +150,6 @@ export default function CoursesPage() {
     ))
   )}
 </div>
-
-
       </div>
     </>
   );

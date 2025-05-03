@@ -66,23 +66,23 @@ export default function CollegePage() {
         </section>
       )}
 
-      <section className="fees">
+      <section className="fee">
         <h2>Fee Structure</h2>
-        {Array.isArray(college.fees) && college.fees.length > 0 ? (
+        {Array.isArray(college.fee) && college.fee.length > 0 ? (
           <table>
             <thead>
               <tr>
                 <th>Course</th>
-                <th>Fees</th>
+                <th>Fee</th>
                 <th>Eligibility</th>
                 <th>Application Date</th>
               </tr>
             </thead>
             <tbody>
-              {college.fees.map((item, idx) => (
+              {college.fee.map((item, idx) => (
                 <tr key={idx}>
                   <td>{item.course}</td>
-                  <td>{item.fees}</td>
+                  <td>{item.fee}</td>
                   <td>{item.eligibility}</td>
                   <td>{item.applicationDate || '-'}</td>
                 </tr>
@@ -138,7 +138,7 @@ export default function CollegePage() {
           font-size: 2rem;
           font-weight: 700;
         }
-        .about, .gallery, .placements, .fees, .talk-expert {
+        .about, .gallery, .placements, .fee, .talk-expert {
           padding: 30px 20px;
           max-width: 1200px;
           margin: auto;
@@ -179,7 +179,7 @@ export default function CollegePage() {
           width: 200px;
           box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
-        .fees table {
+        .fee table {
           width: 100%;
           margin-top: 20px;
           border-collapse: collapse;

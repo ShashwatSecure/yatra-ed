@@ -7,17 +7,17 @@ export default function ContactUs() {
     <main className="flex flex-col">
       {/* Cover Image Header */}
       <div className="relative h-72 w-full">
-  <img
-    src="https://res.cloudinary.com/dddvipq4h/image/upload/v1745385185/contact-us1_ffnbbc.svg"
-    alt="Contact cover"
-    className="object-cover w-full h-full rounded-b-3xl"
-  />
-  <div className="absolute inset-0 bg-[rgba(0,0,0,0.6)] flex items-center justify-center rounded-b-3xl">
-    <h1 className="text-4xl md:text-5xl font-bold text-white">
-      Contact Us
-    </h1>
-  </div>
-</div>
+        <img
+          src="https://res.cloudinary.com/dddvipq4h/image/upload/v1745385185/contact-us1_ffnbbc.svg"
+          alt="Contact cover"
+          className="object-cover w-full h-full rounded-b-3xl"
+        />
+        <div className="absolute inset-0 bg-[rgba(0,0,0,0.6)] flex items-center justify-center rounded-b-3xl">
+          <h1 className="text-4xl md:text-5xl font-bold text-white">
+            Contact Us
+          </h1>
+        </div>
+      </div>
 
 
       {/* Main Contact Section */}
@@ -79,15 +79,9 @@ export default function ContactUs() {
           Find Us On The Map
         </h2>
         <div className="w-full h-[400px] overflow-hidden rounded-2xl shadow-lg">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.83920303236!2d77.06889719645099!3d28.527280343064184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce3a09ef1f0c1%3A0x4a55df6ff7b5b185!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin"
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
+
+
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d557.604108150337!2d88.428434008933!3d22.569874813047566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0275b225f5efd9%3A0xed68992aac5b9bd3!2sAurora%20Waterfront%2C%20GN%20Block%2C%20Sector%20V%2C%20Bidhannagar%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1746250264996!5m2!1sen!2sin" width="100%" height="410" style={{ border: 0 }} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </section>
     </main>
